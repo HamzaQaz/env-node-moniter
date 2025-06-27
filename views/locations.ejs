@@ -1,0 +1,87 @@
+<%- include('partials/header', {title: title}) %> <%-
+include('partials/sidebar', {page: page}) %>
+
+<div class="col-md-10 p-4 main-content">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4>Campus Locations</h4>
+    <div>
+      <button class="btn btn-outline-secondary me-2">
+        <i class="fas fa-filter me-1"></i> Filter
+      </button>
+      <button class="btn btn-primary">
+        <i class="fas fa-plus me-1"></i> Add Campus
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <% campuses.forEach(campus => { %>
+    <div class="col-md-12 mb-4">
+      <div class="card location-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="location-title"><%= campus.name %></h5>
+          <span
+            class="status-badge <%= campus.alertCount > 0 ? 'alert' : 'normal' %>"
+            ><%= campus.alertCount > 0 ? 'Alert' : 'Normal' %></span
+          >
+        </div>
+        <div class="location-details mb-3">
+          <div class="location-address">
+            <i class="fas fa-map-marker-alt me-2"></i> <%= campus.address %>
+          </div>
+          <div class="mt-2">
+            <span class="badge bg-info me-2"
+              ><%= campus.devices.length %> MDF/IDF Locations</span
+            >
+            <% if (campus.alertCount > 0) { %>
+            <span class="badge bg-warning"
+              ><%= campus.alertCount %> Alert(s)</span
+            >
+            <% } else { %>
+            <span class="badge bg-success">All Normal</span>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Status</th>
+                <th>Last Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% campus.devices.forEach(device => { %>
+              <tr class="<%= device.isAlert ? 'table-warning' : '' %>">
+                <td><%= device.Location %></td>
+                <td>
+                  <span class="badge bg-primary"><%= device.Campus %></span>
+                </td>
+                <td class="<%= device.isAlert ? 'text-danger' : '' %>">
+                  <%= device.temp %>°F
+                </td>
+                <td><%= device.humidity %>%</td>
+                <td>
+                  <span
+                    class="badge <%= device.isAlert ? 'bg-danger' : 'bg-success' %>"
+                    ><%= device.isAlert ? 'Alert' : 'Normal' %></span
+                  >
+                </td>
+                <td><%= device.lastUpdated %></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

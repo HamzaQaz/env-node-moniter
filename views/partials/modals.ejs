@@ -1,0 +1,157 @@
+<div
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label">Add Device</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/device/add" method="post">
+          <div class="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              style="margin-bottom: 5px"
+              required
+            />
+            <label>Campus (Shortcode)</label>
+            <input
+              type="text"
+              class="form-control"
+              name="campus"
+              style="margin-bottom: 5px"
+              required
+            />
+            <label>Location</label>
+            <input
+              type="text"
+              class="form-control"
+              name="location"
+              style="margin-bottom: 5px"
+              required
+            />
+            <button type="submit" class="btn btn-primary" style="float: right">
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="alarmModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="alarmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label">Add Alarm</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/alarm/add" method="post">
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              style="margin-bottom: 5px"
+              required
+            />
+            <label>Temp (°F)</label>
+            <input
+              type="number"
+              class="form-control"
+              name="temp"
+              style="margin-bottom: 5px"
+              required
+            />
+            <button type="submit" class="btn btn-primary" style="float: right">
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="locModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="locModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label">Add Location</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/location/add" method="post">
+          <div class="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              style="margin-bottom: 5px"
+              required
+            />
+            <label>Shortcode</label>
+            <input
+              type="text"
+              class="form-control"
+              name="shortcode"
+              style="margin-bottom: 5px"
+              required
+            />
+            <button type="submit" class="btn btn-primary" style="float: right">
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
