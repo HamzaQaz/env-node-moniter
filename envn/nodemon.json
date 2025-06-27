@@ -1,0 +1,5 @@
+{
+  "exec": "pm2 restart server.js",
+  "watch": ["."],
+  "ext": ["js", "ejs", "json", "html", "css", "scss", "ts", "tsx", "jsx", "md"]
+}
