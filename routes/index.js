@@ -70,7 +70,7 @@ router.get("/", async (req, res) => {
     );
 
     res.render("index", {
-      title: "Temperature Alarms",
+      title: "Temperature Moniters",
       deviceData,
       locations,
     });
