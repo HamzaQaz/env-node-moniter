@@ -1,0 +1,13 @@
+    version: '3.8'
+    services:
+      mysql:
+        image: mysql:8.0 # Or your desired MySQL version
+        environment:
+          MYSQL_ROOT_PASSWORD: password123 # Change this!
+          MYSQL_DATABASE: temp # Optional: create a default database
+        ports:
+          - "3306:3306"
+        volumes:
+          - mysql_data:/var/lib/mysql
+    volumes:
+      mysql_data:
