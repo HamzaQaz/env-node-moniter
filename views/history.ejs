@@ -34,7 +34,7 @@
     <script>
         $(function() {
             $("#datepicker").datepicker({
-                dateFormat: 'm/d/yy', // Ensure date format matches what the server expects
+                dateFormat: 'm/d/yy', 
                 onSelect: function (selectedDate) {
                     const getTable = "<%= tableName %>";
                     window.location.href = `/history?table=${getTable}&date=${selectedDate}`;

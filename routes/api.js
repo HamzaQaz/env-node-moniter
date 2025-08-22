@@ -1,16 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
-const nodemailer = require("nodemailer"); // Assuming you use nodemailer for alarms
+const nodemailer = require("nodemailer"); 
 
-// This entire router is public. NO LOGIN CHECKS HERE.
 
-// GET /api/write
-// This is the endpoint your ESP8266 will send data to.
-// In /routes/api.js
 
 router.get("/write", async (req, res) => {
-  // We get temp and humidity from the request
+  
   const { table, temp, humidity } = req.query;
 
   if (!table || !temp || !humidity) {
@@ -43,13 +39,13 @@ router.get("/write", async (req, res) => {
     const insertSql = `INSERT INTO \`${tableName}\` (CAMPUS, LOCATION, DATE, TIME, TEMP, HUMIDITY) VALUES (?, ?, ?, ?, ?, ?)`;
     await db.query(insertSql, [Campus, Location, date, time, temp, humidity]);
 
-    // --- THIS IS THE CORRECTED SECTION ---
-    // Check for alarms using the correct 'temp' variable
+    
+    
     const [alarms] = await db.query("SELECT * FROM alarms");
     for (const alarm of alarms) {
-      // The 'if' statement now correctly uses the 'temp' variable
+      
       if (parseFloat(temp) >= parseFloat(alarm.TEMP)) {
-        // Your email sending logic for alarms goes here
+        
         console.log(
           `ALARM: Device ${tableName} temperature ${temp} is over the threshold of ${alarm.TEMP}`
         );

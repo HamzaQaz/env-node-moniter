@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 
-// Middleware to secure all admin routes
+
 const secure = (req, res, next) => {
   if (req.session.loggedIn) {
     return next();
@@ -12,7 +12,7 @@ const secure = (req, res, next) => {
 };
 router.use(secure);
 
-// GET Admin Page - Fetches all data for display
+
 router.get("/", async (req, res) => {
   try {
     const [devices] = await db.query("SELECT * FROM devices ORDER BY Name");
@@ -31,27 +31,25 @@ router.get("/", async (req, res) => {
   }
 });
 
-// --- DEVICE MANAGEMENT ---
 
-// Handles adding a new device
+
+
 router.post("/device/add", async (req, res) => {
   const { name, campus, location } = req.body;
   if (!name || !campus || !location) {
     return res.status(400).send("Missing required fields to add a device.");
   }
 
-  // 1. Create a database-safe name by replacing hyphens with underscores.
+
   const dbSafeName = name.replace(/-/g, "_");
 
   try {
-    // 2. Use the corrected 'dbSafeName' when inserting into the main devices list.
+    
     await db.query(
       "INSERT INTO devices (Name, Campus, Location) VALUES (?, ?, ?)",
       [dbSafeName, campus, location]
     );
 
-    // 3. Use the same 'dbSafeName' when creating the new data table for that device.
-    // NOTE: Corrected a missing backtick in the LOCATION column definition.
     const createTableSql = `CREATE TABLE IF NOT EXISTS \`${dbSafeName}\` (\`ID\` int(11) NOT NULL AUTO_INCREMENT, \`CAMPUS\` varchar(20) NOT NULL, \`LOCATION\` varchar(20) NOT NULL, \`DATE\` varchar(20) NOT NULL, \`TIME\` varchar(20) NOT NULL, \`TEMP\` int(20) NOT NULL, \`HUMIDITY\` int(20) NOT NULL, PRIMARY KEY (\`ID\`))`;
     await db.query(createTableSql);
 
@@ -64,15 +62,15 @@ router.post("/device/add", async (req, res) => {
   }
 });
 
-// Handles deleting a device
+
 router.get("/device/delete/:id/:name", async (req, res) => {
   const { id, name } = req.params;
   try {
-    // First, delete the record from the main devices list
+    
     await db.query("DELETE FROM devices WHERE ID = ?", [id]);
 
-    // Then, drop the specific data table for that device
-    const tableName = name.replace(/[^a-zA-Z0-9_]/g, ""); // Basic sanitization
+    
+    const tableName = name.replace(/[^a-zA-Z0-9_]/g, "");
     await db.query(`DROP TABLE IF EXISTS \`${tableName}\``);
 
     res.redirect("/admin");
@@ -82,9 +80,9 @@ router.get("/device/delete/:id/:name", async (req, res) => {
   }
 });
 
-// --- LOCATION MANAGEMENT ---
 
-// Handles adding a new location
+
+
 router.post("/location/add", async (req, res) => {
   const { name, shortcode } = req.body;
   try {
@@ -99,7 +97,7 @@ router.post("/location/add", async (req, res) => {
   }
 });
 
-// Handles deleting a location
+
 router.get("/location/delete/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -111,9 +109,9 @@ router.get("/location/delete/:id", async (req, res) => {
   }
 });
 
-// --- ALARM MANAGEMENT ---
 
-// Handles adding a new alarm
+
+
 router.post("/alarm/add", async (req, res) => {
   const { email, temp } = req.body;
   try {
@@ -128,7 +126,7 @@ router.post("/alarm/add", async (req, res) => {
   }
 });
 
-// Handles deleting an alarm
+
 router.get("/alarm/delete/:id", async (req, res) => {
   const { id } = req.params;
   try {

@@ -13,7 +13,7 @@ body {
   z-index: 1000;
 }
 .main-content {
-  margin-left: 250px; /* Push content to the right of the sidebar */
+  margin-left: 250px; 
   padding: 1.5rem;
 }
 .sidebar-header {

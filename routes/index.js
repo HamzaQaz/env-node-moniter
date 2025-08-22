@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 
-// --- PUBLIC ROUTES (Login/Logout) ---
+
 router.get("/login", (req, res) =>
   res.render("login", { title: "Login", error: null })
 );
@@ -18,13 +18,13 @@ router.get("/logout", (req, res) => {
   req.session.destroy(() => res.redirect("/login"));
 });
 
-// --- SECURE ROUTES (All routes below this point require login) ---
+
 router.use((req, res, next) => {
   if (req.session.loggedIn) return next();
   res.redirect("/login");
 });
 
-// GET Home Page (Original card layout)
+
 router.get("/", async (req, res) => {
   const filter = req.query.filter || "";
 
@@ -34,9 +34,9 @@ router.get("/", async (req, res) => {
     );
     const [locations] = await db.query("SELECT * FROM locations ORDER BY ID");
 
-    // Fetch the latest reading for each device
+    
     const deviceDataPromises = devices.map(async (device) => {
-      // Sanitize table name just in case, though it comes from our DB
+      
       const tableName = device.Name.replace(/[^a-zA-Z0-9_]/g, "");
       const [latestReading] = await db.query(
         `SELECT * FROM \`${tableName}\` ORDER BY id DESC LIMIT 1`
@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
         (latestReading.length > 0 && latestReading[0].CAMPUS === filter)
       ) {
         return {
-          ...device, // Name, Campus, Location
+          ...device, 
           temp: latestReading.length ? latestReading[0].TEMP : "N/A",
           time: latestReading.length
             ? new Date(
@@ -84,7 +84,7 @@ router.get("/history", async (req, res) => {
   const { table, date } = req.query;
   if (!table) return res.status(400).send("Device table not specified.");
 
-  // Default to today if no date is provided
+ 
   const searchDate =
     date ||
     new Date().toLocaleDateString("en-US", { timeZone: "America/Chicago" });
@@ -92,13 +92,13 @@ router.get("/history", async (req, res) => {
   try {
     const tableName = table.replace(/[^a-zA-Z0-9_]/g, "");
 
-    // Get device info for the header
+    
     const [deviceInfo] = await db.query(
       "SELECT Location, Campus FROM devices WHERE Name = ? LIMIT 1",
       [tableName]
     );
 
-    // Get history data for the specified date
+    
     const [historyData] = await db.query(
       `SELECT time, temp FROM \`${tableName}\` WHERE date = ?`,
       [searchDate]
