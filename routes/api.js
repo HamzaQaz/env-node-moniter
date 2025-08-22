@@ -3,6 +3,15 @@ const router = express.Router();
 const db = require("../db");
 const nodemailer = require("nodemailer"); 
 
+const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+        user: 'lucius.schuppe@ethereal.email',
+        pass: '17AKSsvsBtAp25vwMG'
+    }
+});
+
 
 
 router.get("/write", async (req, res) => {
@@ -45,6 +54,16 @@ router.get("/write", async (req, res) => {
     for (const alarm of alarms) {
       
       if (parseFloat(temp) >= parseFloat(alarm.TEMP)) {
+
+        (async () => {
+          const mail = transporter.sendMail({
+            from: '"CISD MONITER" <lucius.schuppe@ethereal.email>',
+            to: alarm.EMAIL,
+            subject: `Device ${tableName}'s temp has reached the threshold`,
+            text: `ALARM: Device ${tableName} temperature ${temp} is over the threshold of ${alarm.TEMP}`
+          })
+
+        })
         
         console.log(
           `ALARM: Device ${tableName} temperature ${temp} is over the threshold of ${alarm.TEMP}`
